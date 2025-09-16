@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Django
+/staticfiles/
+db.sqlite3
+
+# Node
+node_modules/
+dist/
+
+# IDEs y SO
+.vscode/
+.DS_Store
