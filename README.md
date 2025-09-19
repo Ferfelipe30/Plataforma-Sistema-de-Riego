@@ -34,3 +34,23 @@ Sigue estas instrucciones para tener una copia del proyecto funcionando en tu ma
     ```bash
     .\venv\Scripts\activate
     ```
+
+4. **Instala las dependencias**
+    (Asegurate de tener un archivo 'requirements.txt' em tu proyecto)
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5. **Aplica las migraciones de la base de datos**
+    (Asegurate de estar ubicado en la carpeta 'backend')
+    ```bash
+    cd backend
+    python manage.py migrate
+    ```
+
+6. **Ejecutar el servidor de desarrollo**
+    ```bash
+    python manage.py runserver
+   ```
+
+   La API estara disponible en 'http://127.0.0.1:8000/'.
