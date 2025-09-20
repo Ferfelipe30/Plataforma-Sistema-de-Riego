@@ -48,9 +48,16 @@ Sigue estas instrucciones para tener una copia del proyecto funcionando en tu ma
     python manage.py migrate
     ```
 
-6. **Ejecutar el servidor de desarrollo**
+6. **Ejecutar el servidor de desarrollo backend**
     ```bash
     python manage.py runserver
    ```
 
    La API estara disponible en 'http://127.0.0.1:8000/'.
+
+7. **Ejecutar el servidor de desarrollo frontend**
+    (Asegyrate de estar ubicado en la carpeta 'frontend')
+    ```bash
+    cd frontend
+    npm run dev
+    ```
