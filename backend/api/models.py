@@ -16,3 +16,26 @@ class DataSensor(models.Model):
         db_table = 'datos-sensores'
         verbose_name = 'Dato-Sensor'
         verbose_name_plural = 'Datos-Sensores'
+
+class usuarios(models.Model):
+    id = models.AutoField(primary_key=True, editable=False)
+    nombre = models.CharField(max_length=100)
+    apellido = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    password = models.CharField(max_length=100)
+    telefono = models.CharField(max_length=15)
+    fecha_registro = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    activo = models.BooleanField(default=True)
+    ultima_sesion = models.DateTimeField(null=True, blank=True)
+
+    def check_password(self, raw_password):
+        return self.password == raw_password
+
+    def __str__(self):
+        return f"Usuario {self.nombre} {self.apellido} - {self.email}"
+    
+    class Meta:
+        db_table = 'usuarios'
+        verbose_name = 'Usuario'
+        verbose_name_plural = 'Usuarios'
