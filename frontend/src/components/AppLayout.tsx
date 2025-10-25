@@ -5,12 +5,15 @@ import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import HomeScreen from './HomeScreen';
+import SistemaScreen from '../commons/sistema/screens/sistemaScreens';
 
 const drawerWidth = 240;
 
 const AppLayout: React.FC = () => {
     const [openUsuarios, setOpenUsuarios] = React.useState(false);
+    const [openSistema, setOpenSistema] = React.useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = React.useState(false);
     const location = useLocation();
 
@@ -22,6 +25,10 @@ const AppLayout: React.FC = () => {
 
     const handleUsuariosClick = () => {
         setOpenUsuarios(!openUsuarios);
+    };
+
+    const handleSistemaClick = () => {
+        setOpenSistema(!openSistema);
     };
 
     const handleCloseSnackbar = () => {
@@ -44,6 +51,34 @@ const AppLayout: React.FC = () => {
                         </ListItemIcon>
                         <ListItemText primary="Inicio" />
                     </ListItemButton>
+
+                    <ListItemButton onClick={handleSistemaClick}>
+                        <ListItemIcon>
+                            <WaterDropIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Sistema" />
+                        {openSistema ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={openSistema} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton component={Link} to="/sistema">
+                                <ListItemText primary="Dashboard de Sensores" />
+                            </ListItemButton>
+                            <ListItemButton component={Link} to="/sistema/grafica">
+                                <ListItemText primary="Gráfica de Sensores" />
+                            </ListItemButton>
+                            <ListItemButton component={Link} to="/sistema/tabla">
+                                <ListItemText primary="Tabla de Sensores" />
+                            </ListItemButton>
+                            <ListItemButton component={Link} to="/sistema/control">
+                                <ListItemText primary="Control de Riego" />
+                            </ListItemButton>
+                            <ListItemButton component={Link} to="/sistema/estado">
+                                <ListItemText primary="Estado del Sistema" />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
+
                     <ListItemButton onClick={handleUsuariosClick}>
                         <ListItemIcon>
                             <PersonIcon />
@@ -67,6 +102,7 @@ const AppLayout: React.FC = () => {
                 <Toolbar />
                 <Routes>
                     <Route path="/" element={<HomeScreen />} />
+                    <Route path="/sistema/*" element={<SistemaScreen />} />
                 </Routes>
             </Box>
 
