@@ -62,20 +62,8 @@ const AppLayout: React.FC = () => {
                     </ListItemButton>
                     <Collapse in={openSistema} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton component={Link} to="/sistema">
-                                <ListItemText primary="Dashboard de Sensores" />
-                            </ListItemButton>
-                            <ListItemButton component={Link} to="/sistema/grafica">
-                                <ListItemText primary="Gráfica de Sensores" />
-                            </ListItemButton>
                             <ListItemButton component={Link} to="/sistema/tabla">
                                 <ListItemText primary="Tabla de Sensores" />
-                            </ListItemButton>
-                            <ListItemButton component={Link} to="/sistema/control">
-                                <ListItemText primary="Control de Riego" />
-                            </ListItemButton>
-                            <ListItemButton component={Link} to="/sistema/estado">
-                                <ListItemText primary="Estado del Sistema" />
                             </ListItemButton>
                         </List>
                     </Collapse>
