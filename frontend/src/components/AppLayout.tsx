@@ -8,6 +8,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
 import HomeScreen from './HomeScreen';
 import SistemaScreen from '../commons/sistema/screens/sistemaScreens';
+import UsuarioScreens from '../commons/usuario/screens/usuarioScreens';
 
 const drawerWidth = 240;
 
@@ -88,11 +89,8 @@ const AppLayout: React.FC = () => {
                     </ListItemButton>
                     <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton component={Link} to="/usuarios/crear">
-                                <ListItemText primary="Crear usuario" />
-                            </ListItemButton>
-                            <ListItemButton component={Link} to="/usuarios/editar">
-                                <ListItemText primary="Editar usuario" />
+                            <ListItemButton component={Link} to="/usuarios">
+                                <ListItemText primary="Gestión de usuarios" />
                             </ListItemButton>
                         </List>
                     </Collapse>
@@ -103,6 +101,7 @@ const AppLayout: React.FC = () => {
                 <Routes>
                     <Route path="/" element={<HomeScreen />} />
                     <Route path="/sistema/*" element={<SistemaScreen />} />
+                    <Route path="/usuarios/*" element={<UsuarioScreens />} />
                 </Routes>
             </Box>
 
