@@ -1,21 +1,24 @@
 import React from "react";
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Collapse, Snackbar, Alert } from '@mui/material';
+import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Collapse, Snackbar, Alert, IconButton } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import MenuIcon from '@mui/icons-material/Menu';
 import HomeScreen from './HomeScreen';
 import SistemaScreen from '../commons/sistema/screens/sistemaScreens';
 import UsuarioScreens from '../commons/usuario/screens/usuarioScreens';
 
 const drawerWidth = 240;
+const miniWidth = (theme: any) => `calc(${theme.spacing(7)} + 1px)`;
 
 const AppLayout: React.FC = () => {
     const [openUsuarios, setOpenUsuarios] = React.useState(false);
     const [openSistema, setOpenSistema] = React.useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = React.useState(false);
+    const [drawerOpen, setDrawerOpen] = React.useState(true);
     const location = useLocation();
 
     React.useEffect(() => {
@@ -24,85 +27,155 @@ const AppLayout: React.FC = () => {
         }
     }, [location]);
 
-    const handleUsuariosClick = () => {
-        setOpenUsuarios(!openUsuarios);
-    };
+    const handleUsuariosClick = () => setOpenUsuarios((v) => !v);
+    const handleSistemaClick = () => setOpenSistema((v) => !v);
+    const handleCloseSnackbar = () => setShowSuccessMessage(false);
 
-    const handleSistemaClick = () => {
-        setOpenSistema(!openSistema);
-    };
+    const toggleDrawer = () => {
+        setDrawerOpen((v) => !v);
 
-    const handleCloseSnackbar = () => {
-        setShowSuccessMessage(false);
+        if (drawerOpen) {
+            setOpenUsuarios(false);
+            setOpenSistema(false);
+        }
     };
 
     return (
         <Box sx={{ display: 'flex' }}>
             <Drawer 
-                variant="permanent" sx={{ width: drawerWidth, flexShrink: 0 }}>
-                <Toolbar>
-                    <Typography variant="h6" noWrap component="div" sx={{ p: 2 }}>
-                        Menu de Sistema de Riego
-                    </Typography>
+                variant="permanent" 
+                sx={(theme) => ({ 
+                    width: drawerOpen ? drawerWidth : miniWidth(theme), 
+                    flexShrink: 0,
+                    '& .MuiDrawer-paper': {
+                        width: drawerOpen ? drawerWidth : miniWidth(theme),
+                        boxSizing: 'border-box',
+                        overflowX: 'hidden',
+                        transition: theme.transitions.create('width', {
+                            easing: theme.transitions.easing.sharp,
+                            duration: theme.transitions.duration.enteringScreen,
+                        }),
+                    },
+                })}>
+                <Toolbar sx={{ display: 'flex', alignItems: 'center', justifyContent: drawerOpen ? 'space-between' : 'center' }}>
+                    {drawerOpen && (
+                        <Typography variant="h6" noWrap component="div" sx={{ pl: 1 }}>
+                        Menú
+                        </Typography>
+                    )}
+                    <IconButton onClick={toggleDrawer} size="small">
+                        <MenuIcon />
+                    </IconButton>
                 </Toolbar>
                 <List>
-                    <ListItemButton component={Link} to="/">
-                        <ListItemIcon>
-                            <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Inicio" />
+                    <ListItemButton
+                        component={Link}
+                        to="/"
+                        sx={{
+                        minHeight: 48,
+                        justifyContent: drawerOpen ? 'initial' : 'center',
+                        px: 2.5,
+                        }}
+                    >
+                    <ListItemIcon
+                        sx={{
+                            minWidth: 0,
+                            mr: drawerOpen ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <HomeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Inicio" sx={{ opacity: drawerOpen ? 1 : 0 }} />
                     </ListItemButton>
 
-                    <ListItemButton onClick={handleSistemaClick}>
-                        <ListItemIcon>
-                            <WaterDropIcon />
+                    <ListItemButton
+                        onClick={handleSistemaClick}
+                        sx={{
+                        minHeight: 48,
+                        justifyContent: drawerOpen ? 'initial' : 'center',
+                        px: 2.5,
+                        }}
+                    >
+                        <ListItemIcon
+                        sx={{
+                            minWidth: 0,
+                            mr: drawerOpen ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}
+                        >
+                        <WaterDropIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Sistema" />
-                        {openSistema ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Sistema" sx={{ opacity: drawerOpen ? 1 : 0 }} />
+                        {drawerOpen ? (openSistema ? <ExpandLess /> : <ExpandMore />) : null}
                     </ListItemButton>
-                    <Collapse in={openSistema} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton component={Link} to="/sistema/tabla">
-                                <ListItemText primary="Tabla de Sensores" />
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
 
-                    <ListItemButton onClick={handleUsuariosClick}>
-                        <ListItemIcon>
-                            <PersonIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Usuarios" />
-                        {openUsuarios ? <ExpandLess /> : <ExpandMore />}
-                    </ListItemButton>
-                    <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
+                    {drawerOpen && (
+                        <Collapse in={openSistema} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton component={Link} to="/usuarios">
-                                <ListItemText primary="Gestión de usuarios" />
+                            <ListItemButton
+                            component={Link}
+                            to="/sistema/tabla"
+                            sx={{ pl: 4 }}
+                            >
+                            <ListItemText primary="Tabla de Sensores" />
                             </ListItemButton>
                         </List>
-                    </Collapse>
-                </List>
-            </Drawer>
-            <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <Toolbar />
-                <Routes>
+                        </Collapse>
+                    )}
+
+                    <ListItemButton
+                        onClick={handleUsuariosClick}
+                        sx={{
+                        minHeight: 48,
+                        justifyContent: drawerOpen ? 'initial' : 'center',
+                        px: 2.5,
+                        }}
+                    >
+                        <ListItemIcon
+                        sx={{
+                            minWidth: 0,
+                            mr: drawerOpen ? 3 : 'auto',
+                            justifyContent: 'center',
+                        }}
+                        >
+                        <PersonIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Usuarios" sx={{ opacity: drawerOpen ? 1 : 0 }} />
+                        {drawerOpen ? (openUsuarios ? <ExpandLess /> : <ExpandMore />) : null}
+                    </ListItemButton>
+
+                    {drawerOpen && (
+                        <Collapse in={openUsuarios} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton component={Link} to="/usuarios" sx={{ pl: 4 }}>
+                            <ListItemText primary="Gestión de usuarios" />
+                            </ListItemButton>
+                        </List>
+                        </Collapse>
+                    )}
+                    </List>
+                </Drawer>
+
+                <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+                    <Toolbar />
+                    <Routes>
                     <Route path="/" element={<HomeScreen />} />
                     <Route path="/sistema/*" element={<SistemaScreen />} />
                     <Route path="/usuarios/*" element={<UsuarioScreens />} />
-                </Routes>
-            </Box>
+                    </Routes>
+                </Box>
 
-            <Snackbar
-                open={showSuccessMessage}
-                autoHideDuration={4000}
-                onClose={handleCloseSnackbar}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right'}}
-            >
-                <Alert onClose={handleCloseSnackbar} severity="success">
+                <Snackbar
+                    open={showSuccessMessage}
+                    autoHideDuration={4000}
+                    onClose={handleCloseSnackbar}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                >
+                    <Alert onClose={handleCloseSnackbar} severity="success">
                     Inicio de sesión exitoso.
-                </Alert>
-            </Snackbar>
+                    </Alert>
+                </Snackbar>
         </Box>
     );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, TextField, AppBar, Container, Toolbar, Grid } from '@mui/material';
+import { Box, Typography, Button, AppBar, Container, Toolbar } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const HomeScreen: React.FC = () => {
@@ -11,8 +11,8 @@ const HomeScreen: React.FC = () => {
     };
 
     return (
-        <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
-            <AppBar position="static">
+        <Box sx={{ textAlign: 'center', mt: 4, bgcolor: 'background.default' }}>
+            <AppBar>
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Plataforma Sistema de Riego
@@ -23,66 +23,42 @@ const HomeScreen: React.FC = () => {
                 </Toolbar>
             </AppBar>
 
-            <Container sx={{ py: 6 }}>
-                <Grid container spacing={4} alignItems="center">
-                        <Typography variant="h3" component="h1" gutterBottom>
-                            Control y monitoreo de riego
+            <Container sx={{ mt: 10 }}>
+                <Typography variant="h3" component="h1" gutterBottom>
+                    Bienvenido a la Plataforma del Sistema de Riego
+                </Typography>
+                <Typography variant="h6" component="p" gutterBottom>
+                    Monitorea y controla tu sistema de riego de manera eficiente y sencilla.
+                </Typography>
+
+                <Container sx={{ py: 6 }}>
+                    <Box sx={{ maxWidth: 920, mx: 'auto', mb: 6 }}>
+                        <Typography variant="h3" gutterBottom>
+                            Monitoreo y gestión inteligente de riego
                         </Typography>
-                        <Typography variant="body1" color="text.secondary" paragraph>
-                            Visualiza datos de sensores, administra usuarios y controla el sistema de riego desde una interfaz sencilla.
+                        <Typography variant="h6" color="text.secondary">
+                            Visualiza datos de sensores en tiempo real, administra usuarios y roles, genera alertas y optimiza el uso del agua en tus cultivos.
                         </Typography>
 
-                        <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-                            <Button variant="contained" color="primary" component={RouterLink} to="/data">
-                                Ver datos
+                        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 4, flexWrap: 'wrap' }}>
+                            <Button variant="contained" size="large" component={RouterLink} to="/sistema">
+                                Ver datos del sistema
                             </Button>
-                            <Button variant="outlined" color="primary" component={RouterLink} to="/usuarios">
-                                Usuarios
+                            <Button variant="outlined" size="large" component={RouterLink} to="/usuarios">
+                                Gestión de usuarios
                             </Button>
                         </Box>
+                    </Box>
 
-                        <Box
-                            component="form"
-                            onSubmit={handleQuickLogin}
-                            noValidate
-                            autoComplete="off"
-                            sx={{
-                                p: 3,
-                                borderRadius: 2,
-                                boxShadow: 3,
-                                bgcolor: 'background.paper',
-                            }}
-                        >
-                            <Typography variant="h6" gutterBottom>
-                                Acceso rápido
-                            </Typography>
-                            <TextField 
-                                fullWidth 
-                                label="Email" 
-                                margin="normal" 
-                                type="email"
-                                name="email"
-                                autoComplete="email"
-                            />
-                            <TextField 
-                                fullWidth 
-                                label="Contraseña" 
-                                margin="normal" 
-                                type="password"
-                                name="password"
-                                autoComplete="current-password"
-                            />
-                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-                                <Button 
-                                    type="submit"
-                                    variant="contained" 
-                                    color="primary"
-                                >
-                                    Entrar
-                                </Button>
-                            </Box>
-                        </Box>
-                </Grid>
+                    <Box sx={{ mt: 6 }}>
+                        <Typography variant="body2" color="text.secondary">
+                            ¿Nuevo en la plataforma? Inicia sesión para acceder a todas las funciones disponibles.
+                        </Typography>
+                        <Button sx={{ mt: 2 }} variant="text" component={RouterLink} to="/login" onClick={handleQuickLogin}>
+                            Ir a iniciar sesión
+                        </Button>
+                    </Box>
+                </Container>
             </Container>
         </Box>
     );
