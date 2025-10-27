@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getSistema } from '../services/services';
+import { getSistema, createSistema } from '../services/services';
 import type { DataSensor } from '../types/types';
-import type { ApiResponse } from '../../../types/types';
 
 export const useSistema = () => {
     const [data, setData] = useState<DataSensor[]>([]);
@@ -10,24 +9,37 @@ export const useSistema = () => {
 
     const fetchSistema = async () => {
         setLoading(true);
-        setError(null);
         try {
-            const response: ApiResponse<DataSensor[]> = await getSistema();
-            if (response.success) {
-                setData(response.data);
-            } else {
-                setError(response.detail);
-            }
-        } catch (err: any) {
-            setError(err.message || 'Error al obtener los datos del sistema');
+            const response = await getSistema();
+            setData(response.data);
+            setError(null);
+        } catch (err) {
+            console.error(err);
+            setError("Error al obtener los datos del sistema");
         } finally {
-            setLoading(false);
+          setLoading(false);
         }
     };
+
+    const addSistema = async (sistema: Omit<DataSensor, 'id'>) => {
+        setLoading(true);
+        try {
+          const response = await createSistema(sistema);
+          setData((prev) => [...prev, response.data]);
+          setError(null);
+        } catch (err) {
+          console.error(err);
+          setError("Error al crear el sistema");
+        } finally {
+          setLoading(false);
+        }
+      };
 
     useEffect(() => {
         fetchSistema();
     }, []);
 
-    return { data, loading, error, refetch: fetchSistema };
-}
+    return { data, loading, error, refetch: fetchSistema, addSistema };
+};
+
+export default useSistema;

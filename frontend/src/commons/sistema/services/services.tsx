@@ -15,3 +15,9 @@ export const getSistema = async (): Promise<ApiResponse<DataSensor[]>> => {
         } as ApiResponse<DataSensor[]>;
     }
 };
+
+export const createSistema = async (data: Omit<DataSensor, 'id'>): Promise<ApiResponse<DataSensor>> => {
+    const response = await axios.post<ApiResponse<DataSensor>>('/api/data/crear/', data);
+    console.log(response.data);
+    return response.data;
+};
