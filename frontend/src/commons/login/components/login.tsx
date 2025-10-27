@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Box, Button, TextField, Typography, Alert, InputAdornment, IconButton, Paper, CircularProgress } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import useLogin from '../hooks/useLogin';
+import CreateUsuario from '../../usuario/components/CreateUsuario';
 
 export default function Login() {
   const { login, loading, error, resetError } = useLogin();
   const [values, setValues] = useState({ email: '', password: '' });
   const [touched, setTouched] = useState<{ email?: boolean; password?: boolean }>({});
   const [showPassword, setShowPassword] = useState(false);
+  const [openCrear, setOpenCrear] = useState(false);
 
   const errors = {
     email: touched.email && !values.email ? 'El email es requerido' : '',
@@ -39,7 +41,7 @@ export default function Login() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', bgcolor: (t) => t.palette.background.default, p: 2 }}>
+    <Box sx={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', placeItems: 'center', bgcolor: (t) => t.palette.background.default, p: 2 }}>
       <Paper elevation={3} sx={{ width: '100%', maxWidth: 420, p: 4 }}>
         <Typography variant="h5" fontWeight={700} gutterBottom>
           Iniciar sesión
@@ -108,7 +110,23 @@ export default function Login() {
           >
             {loading ? 'Ingresando...' : 'Ingresar'}
           </Button>
+
+          <Button
+            variant="text"
+            color="primary"
+            onClick={() => setOpenCrear(true)}
+            sx={{ mt: 1 }}
+          >
+            Crear cuenta
+          </Button>
         </Box>
+        <CreateUsuario
+          open={openCrear}
+          onClose={() => setOpenCrear(false)}
+          onSuccess={() => {
+            setOpenCrear(false);
+          }}
+        />
       </Paper>
     </Box>
   );
