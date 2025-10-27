@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography, Collapse, Snackbar, Alert, IconButton } from '@mui/material';
+import { BarChart3 } from "lucide-react";
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -10,11 +11,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import HomeScreen from './HomeScreen';
 import SistemaScreen from '../commons/sistema/screens/sistemaScreens';
 import UsuarioScreens from '../commons/usuario/screens/usuarioScreens';
+import DashboardScreen from "../commons/analisisDatos/screens/analisisDatosScreens";
 
 const drawerWidth = 240;
 const miniWidth = (theme: any) => `calc(${theme.spacing(7)} + 1px)`;
 
-const AppLayout: React.FC = () => {
+export const AppLayout: React.FC = () => {
     const [openUsuarios, setOpenUsuarios] = React.useState(false);
     const [openSistema, setOpenSistema] = React.useState(false);
     const [showSuccessMessage, setShowSuccessMessage] = React.useState(false);
@@ -90,6 +92,28 @@ const AppLayout: React.FC = () => {
                     </ListItemButton>
 
                     <ListItemButton
+                        component={Link}
+                        to="/analisis-datos"
+                        selected={location.pathname.startsWith('/analisis-datos')}
+                        sx={{
+                            minHeight: 48,
+                            justifyContent: drawerOpen ? 'initial' : 'center',
+                            px: 2.5,
+                        }}
+                    >
+                        <ListItemIcon
+                            sx={{
+                            minWidth: 0,
+                            mr: drawerOpen ? 3 : 'auto',
+                            justifyContent: 'center',
+                            }}
+                        >
+                            <BarChart3 />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" sx={{ opacity: drawerOpen ? 1 : 0 }} />
+                    </ListItemButton>
+
+                    <ListItemButton
                         onClick={handleSistemaClick}
                         sx={{
                         minHeight: 48,
@@ -161,6 +185,7 @@ const AppLayout: React.FC = () => {
                     <Toolbar />
                     <Routes>
                     <Route path="/" element={<HomeScreen />} />
+                    <Route path="/analisis-datos/*" element={<DashboardScreen />} />
                     <Route path="/sistema/*" element={<SistemaScreen />} />
                     <Route path="/usuarios/*" element={<UsuarioScreens />} />
                     </Routes>
